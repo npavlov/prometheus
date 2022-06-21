@@ -1,0 +1,28 @@
+global:
+  smtp_from:
+  smtp_smarthost:
+  smtp_auth_username:
+  smtp_auth_password:
+templates:
+  - '/etc/alertmanager/template/*.tmpl'
+route:
+  receiver: 'slack'
+
+receivers:
+  - name: 'slack'
+#    slack_configs:
+#     - api_url: put your url here
+#        channel: 'put your channel name here'
+#        send_resolved: true
+#        icon_url: https://avatars3.githubusercontent.com/u/3380462
+#        text: >-
+#          {{ range .Alerts -}}
+#          *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+#          *Description:* {{ .Annotations.description }}
+#          *Details:*
+#          {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+#          {{ end }}
+#          {{ end }}
+#email_configs:
+#  - to: 'emails of the ones that need to be notified'
+#    send_resolved: true

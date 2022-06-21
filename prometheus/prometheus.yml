@@ -14,6 +14,14 @@ global:
 rule_files:
   - 'alert.rules'
 
+# alert
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets:
+            - "alertmanager:9093"
+
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
@@ -49,3 +57,18 @@ scrape_configs:
           - 'cadvisor'
         type: 'A'
         port: 8080
+
+  - job_name: 'snmp'
+    dns_sd_configs:
+      - names:
+          - 'snmp'
+        type: 'A'
+        port: 9116
+    metrics_path: /metrics
+    params:
+      module: [snmp_in_out_octets]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance

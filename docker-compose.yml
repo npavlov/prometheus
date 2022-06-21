@@ -3,6 +3,7 @@ version: '1.0'
 volumes:
   prometheus_data: {}
   grafana_data: {}
+  snmp_data: {}
 
 networks:
   front-tier:
@@ -59,6 +60,34 @@ services:
     restart: always
     deploy:
       mode: global
+
+  snmp:
+    image: quay.io/prometheus/snmp-exporter
+    volumes:
+      - ./snmp_exporter/:/etc/snmp_exporter/
+      - snmp_data:/snmp
+    ports:
+      - 9116:9116
+      - 116:116/udp
+    restart: always
+    networks:
+      - back-tier
+    command: --config.file=/etc/snmp_exporter/snmp.yml
+    deploy:
+      mode: global
+
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    networks:
+      - back-tier
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
 
   grafana:
     image: grafana/grafana

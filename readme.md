@@ -6,4 +6,4 @@
 
 Вызвать консоль в контейнере
 
-➜ docker exec -u 0 -it {container_id} sh
+docker exec -u 0 -it {container_id} sh
