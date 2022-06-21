@@ -1,5 +1,9 @@
-Quick start
+# Quick start
 
-docker-compose up -d                           
+Запускаем сервис - docker-compose up -d                           
 
-docker-compose down                           
+Останавливаем - docker-compose                            
+
+Вызвать консоль в контейнере
+
+➜ docker exec -u 0 -it {container_id} sh
